@@ -1,7 +1,11 @@
 package pe.tuna.microserviciocurso.entity;
 
+import pe.tuna.commonsalumnos.models.Alumno;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cursos")
@@ -16,9 +20,16 @@ public class Curso {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Alumno> alumnos;
+
     @PrePersist
     public void prePersist() {
         createAt = new Date();
+    }
+
+    public Curso(){
+        alumnos = new ArrayList<>();
     }
 
     public Long getId() {
@@ -44,4 +55,21 @@ public class Curso {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+    public List<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+
+    public void addAlumno(Alumno alumno){
+        alumnos.add(alumno);
+    }
+
+    public void removeAlumno(Alumno alumno){
+        alumnos.remove(alumno);
+    }
+
 }
